@@ -32,6 +32,7 @@ public:
 	Variant getErrorDescription(VariantParameters&);
 	void message(const std::wstring& msg, const long code = 0);
 	void callback(std::wstring& msg, std::wstring& data);
+	void callback(std::string& msg, std::string& data);
 
 private:
 	friend class AddinManager;
@@ -373,6 +374,37 @@ void AddinObject<ConcreteAddin>::callback(std::wstring& msg, std::wstring& data)
 	mConnect->ExternalEvent(metadata().name().c_str(),
 		convertStringToPlatform(msg).c_str(),
 		convertStringToPlatform(data).c_str());
+}
+
+std::wstring utf8toUtf16(const std::string & str)
+{
+	if (str.empty())
+		return std::wstring();
+
+	size_t charsNeeded = MultiByteToWideChar(CP_UTF8, 0,
+		str.data(), (int)str.size(), NULL, 0);
+
+	if (charsNeeded == 0) return std::wstring();
+
+	std::vector<wchar_t> buffer(charsNeeded);
+
+	int charsConverted = MultiByteToWideChar(CP_UTF8, 0,
+		str.data(), (int)str.size(), &buffer[0], buffer.size());
+	if (charsConverted == 0) return std::wstring();
+
+	return std::wstring(&buffer[0], charsConverted);
+}
+
+template <class ConcreteAddin>
+void AddinObject<ConcreteAddin>::callback(std::string& msg, std::string& data) {
+	if (!mConnect) return;
+
+	std::wstring _msg = utf8toUtf16(msg);
+	std::wstring _data = utf8toUtf16(data);
+
+	mConnect->ExternalEvent(metadata().name().c_str(),
+		convertStringToPlatform(_msg).c_str(),
+		convertStringToPlatform(_data).c_str());
 }
 
 } // namespace Addin1C
