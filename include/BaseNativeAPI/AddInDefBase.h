@@ -75,9 +75,9 @@ public:
      *  @param wszData - message parameters
      *  @return the result of
      */
-    virtual bool ADDIN_API ExternalEvent(WCHAR_T* wszSource, 
-					 WCHAR_T* wszMessage, 
-					 WCHAR_T* wszData) = 0;
+    virtual bool ADDIN_API ExternalEvent(const WCHAR_T* wszSource,
+					 const WCHAR_T* wszMessage,
+					 const WCHAR_T* wszData) = 0;
     /// Clears event buffer
     /**
      */

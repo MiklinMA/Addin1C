@@ -3,7 +3,7 @@
 #define _SMART_COMPONENT_BASE_H_
 
 #ifdef _WINDOWS
-#include <WTypes.h>
+//#include <WTypes.h>
 #endif
 
 #include <wctype.h>
@@ -31,6 +31,7 @@ public:
 
 	Variant getErrorDescription(VariantParameters&);
 	void message(const std::wstring& msg, const long code = 0);
+	void callback(std::wstring& msg, std::wstring& data);
 
 private:
 	friend class AddinManager;
@@ -363,6 +364,15 @@ void AddinObject<ConcreteAddin>::message(const std::wstring& msg, const long cod
 	if (!mConnect) return;
 
 	mConnect->AddError(ADDIN_E_INFO, metadata().name().c_str(), convertStringToPlatform(msg).c_str(), code);
+}
+
+template <class ConcreteAddin>
+void AddinObject<ConcreteAddin>::callback(std::wstring& msg, std::wstring& data) {
+	if (!mConnect) return;
+
+	mConnect->ExternalEvent(metadata().name().c_str(),
+		convertStringToPlatform(msg).c_str(),
+		convertStringToPlatform(data).c_str());
 }
 
 } // namespace Addin1C
