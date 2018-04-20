@@ -13,3 +13,7 @@ Addin1C::Variant OnesNats::connect(Addin1C::VariantParameters& p) {
 
 	return (std::wstring) L"Connection thread started to " + host + L":" + std::to_wstring((long long)port);
 }
+
+Addin1C::Variant OnesNats::subscribe(Addin1C::VariantParameters& p) {}
+Addin1C::Variant OnesNats::publish(Addin1C::VariantParameters& p) {}
+Addin1C::Variant OnesNats::request(Addin1C::VariantParameters& p) {}
