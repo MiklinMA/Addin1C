@@ -129,3 +129,6 @@ UpgradeLog*.XML
 
 # NuGet
 packages/
+
+# Studio
+.vs
