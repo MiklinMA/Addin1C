@@ -7,7 +7,7 @@
 
 #include <AddinObject.h>
 
-#define MAXLEN 1024
+#define MAXLEN 8192
 #define CRLF "\r\n"
 #define SLEEP 30 * 1000
 #define DEF_HOST L"localhost"
@@ -21,6 +21,8 @@ class OnesNats : public Addin1C::AddinObject<OnesNats> {
 	SOCKET nc;
 
 	bool connected;
+
+	std::map<std::string, std::string> subjects;
 
 public:
 	OnesNats() : host(DEF_HOST), port(DEF_PORT), connected(false) {}
@@ -67,4 +69,6 @@ private:
 	int nats_connect();
 	int nats_send(const char *text);
 	int nats_recv(const char *text);
+	int nats_subscribe(const char *subject);
+	int nats_publish(const char *subject, const char *data);
 };
