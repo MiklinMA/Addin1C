@@ -57,12 +57,29 @@ int OnesNats::nats_recv(const char *text) {
 		return 0;
 	}
 
+	// MSG <subject> <sid> <#bytes>\r\n[payload]\r\n
 	r.assign("MSG (\\S+) (\\S+) (\\d+)\r\n(.*)\r\n");
 	if (std::regex_search(s, m, r)) {
 		std::string subject = m[1];
 		std::string sid = m[2];
 		size_t size = std::stoul(m[3]);
 		std::string data = m[4];
+
+		callback(subject, data);
+
+		return 0;
+	}
+
+	// MSG <subject> <sid> [reply-to] <#bytes>\r\n[payload]\r\n
+	r.assign("MSG (\\S+) (\\S+) (\\S+) (\\d+)\r\n(.*)\r\n");
+	if (std::regex_search(s, m, r)) {
+		std::string subject = m[1];
+		std::string sid = m[2];
+		std::string reply_to = m[3];
+		size_t size = std::stoul(m[4]);
+		std::string data = m[5];
+
+		nats_publish(reply_to.c_str(), "OK");
 
 		callback(subject, data);
 
