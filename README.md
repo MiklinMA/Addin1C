@@ -1,10 +1,12 @@
 # OnesNats
 
-![Diagram](https://raw.githubusercontent.com/MiklinMA/DriverNats/master/Diagram.png)
-
 Внешняя компонента для использования сервера очередей сообщений [NATS](https://github.com/nats-io/gnatsd).
 
-В основе лежит библиотека враппер для интерфейса компонент, использующих технологию NativeAPI, для платформы 1С:Предприятия 8.x.
+![Diagram](https://raw.githubusercontent.com/MiklinMA/DriverNats/master/Diagram.png)
+
+В основе лежит [библиотека враппер](https://github.com/tapapax/Addin1C) для интерфейса компонент, использующих технологию NativeAPI, для платформы 1С:Предприятия 8.x.
+
+Для создания сервисов (worker) удобно использовать шаблоны из проекта [DriverNats](https://github.com/MiklinMA/DriverNats)
 
 ## Сборка
 
